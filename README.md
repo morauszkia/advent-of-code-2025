@@ -30,6 +30,7 @@ node index.js
 The repository is organized into folders by day:
 
 - Day 1: Secret Entrance \[[Task](./D1/task.md) | [Example input](./D1/example-input.txt) | [Solution](./D1/main.py) | [Web](https://adventofcode.com/2025/day/1)\]
+- Day 2: Gift Shop \[[Task](./D2/task.md) | [Example input](./D2/example-input.txt) | Solution | [Web](https://adventofcode.com/2025/day/2)\]
 
 ## 🤝 Contributions
 
