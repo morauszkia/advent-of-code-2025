@@ -31,6 +31,23 @@ def is_accessible(roll_position, diagram):
     return count_adjacent_rolls(roll_position, diagram) < 4
 
 
+def remove_rolls_recursive(diagram):
+    removed_rolls = 0
+    rolls_to_remove = []
+    for i in range(len(diagram)):
+        row = diagram[i]
+        for j in range(len(row)):
+            if row[j] == "@":
+                if is_accessible((i, j), diagram):
+                    rolls_to_remove.append((i, j))
+                    removed_rolls += 1
+
+    for row, col in rolls_to_remove:
+        diagram[row][col] = "x"
+
+    return diagram, removed_rolls
+
+
 def main():
     arg = sys.argv[1] if len(sys.argv) > 1 else ""
     if arg == "example":
@@ -39,14 +56,17 @@ def main():
         filepath = "input.txt"
     diagram = read_diagram(f"D4/{filepath}")
 
-    accessible_rolls = 0
-    for i in range(len(diagram)):
-        row = diagram[i]
-        for j in range(len(row)):
-            if row[j] == "@":
-                if is_accessible((i, j), diagram):
-                    accessible_rolls += 1
-    print(f"Total accessible rolls: {accessible_rolls}")
+    removed_rolls = 0
+
+    while True:
+        diagram, newly_removed = remove_rolls_recursive(diagram)
+        if newly_removed == 0:
+            break
+
+        print(f"{newly_removed} rolls removed this pass.")
+        removed_rolls += newly_removed
+
+    print(f"Total removed rolls: {removed_rolls}")
 
 
 if __name__ == "__main__":
