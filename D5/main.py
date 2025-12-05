@@ -1,4 +1,5 @@
 import sys
+from bisect import bisect_right
 
 
 def read_file(filepath):
@@ -35,17 +36,23 @@ def merge_ranges(ranges):
 
 
 def count_in_range_numbers(ranges, numbers):
+    range_starts = [start for start, _ in ranges]
     count = 0
+
     for number in numbers:
-        for start, end in ranges:
-            if start <= number <= end:
-                count += 1
-                break
+        i = bisect_right(range_starts, number)
+        if i == 0:
+            continue
+
+        start, end = ranges[i - 1]
+        if start <= number <= end:
+            count += 1
+
     return count
 
 
 def count_fresh_ingredient_ids(ranges):
-    return sum([end - start + 1 for start, end in ranges])
+    return sum(end - start + 1 for start, end in ranges)
 
 
 def main():
