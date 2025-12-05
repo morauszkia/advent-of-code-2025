@@ -32,7 +32,8 @@ The repository is organized into folders by day:
 - Day 1: Secret Entrance \[[Task](./D1/task.md) | [Example input](./D1/example-input.txt) | [Solution](./D1/main.py) | [Web](https://adventofcode.com/2025/day/1)\]
 - Day 2: Gift Shop \[[Task](./D2/task.md) | [Example input](./D2/example-input.txt) | [Solution](./D2/main.py) | [Web](https://adventofcode.com/2025/day/2)\]
 - Day 3: Lobby \[[Task](./D3/task.md) | [Example input](./D3/example-input.txt) | [Solution](./D3/main.py) | [Web](https://adventofcode.com/2025/day/3)\]
-- Day 4: Gift Shop \[[Task](./D4/task.md) | [Example input](./D4/example-input.txt) | Solution | [Web](https://adventofcode.com/2025/day/4)\]
+- Day 4: Gift Shop \[[Task](./D4/task.md) | [Example input](./D4/example-input.txt) | [Solution](./D4/main.py) | [Web](https://adventofcode.com/2025/day/4)\]
+- Day 5: Cafeteria \[[Task](./D5/task.md) | [Example input](./D5/example-input.txt) | Solution | [Web](https://adventofcode.com/2025/day/5)\]
 
 ## 🤝 Contributions
 
