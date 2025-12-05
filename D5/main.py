@@ -44,6 +44,10 @@ def count_in_range_numbers(ranges, numbers):
     return count
 
 
+def count_fresh_ingredient_ids(ranges):
+    return sum([end - start + 1 for start, end in ranges])
+
+
 def main():
     filepath = (
         "D5/example-input.txt"
@@ -54,8 +58,10 @@ def main():
     sorted_ranges = sort_ranges(ranges)
     merged_ranges = merge_ranges(sorted_ranges)
     fresh_count = count_in_range_numbers(merged_ranges, numbers)
+    fresh_id_count = count_fresh_ingredient_ids(merged_ranges)
 
     print(f"{fresh_count} fresh ingredient IDs found.")
+    print(f"{fresh_id_count} total fresh ingredient IDs available.")
 
 
 if __name__ == "__main__":
