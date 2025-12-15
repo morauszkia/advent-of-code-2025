@@ -26,7 +26,7 @@ def calculate_distance(box_one, box_two):
     return math.sqrt(dx**2 + dy**2 + dz**2)
 
 
-def get_shortest_distances(boxes, n):
+def calculate_all_distances(boxes):
     distances = []
     for i in range(len(boxes) - 1):
         current = boxes[i]
@@ -34,14 +34,14 @@ def get_shortest_distances(boxes, n):
             next = boxes[j]
             distance = calculate_distance(current, next)
             distances.append((i, j, distance))
-
-    return sorted(distances, key=lambda x: x[-1])[:n]
+    return sorted(distances, key=lambda x: x[-1])
 
 
 class DSU:
     def __init__(self, n):
         self.parent = list(range(n))
         self.sizes = [1] * n
+        self.components = n
 
     def find(self, x):
         while x != self.parent[x]:
@@ -58,10 +58,11 @@ class DSU:
             root_a, root_b = root_b, root_a
         self.parent[root_b] = root_a
         self.sizes[root_a] += self.sizes[root_b]
+        self.components -= 1
         return True
 
 
-def create_circuits(distances, num_of_boxes):
+def create_circuits_p1(distances, num_of_boxes):
     dsu = DSU(num_of_boxes)
 
     for box_one, box_two, _ in distances:
@@ -75,6 +76,20 @@ def create_circuits(distances, num_of_boxes):
     return groups
 
 
+def create_circuits_p2(distances, num_of_boxes):
+    dsu = DSU(num_of_boxes)
+
+    last_pair = None
+
+    for box_one, box_two, _ in distances:
+        if dsu.union(box_one, box_two):
+            last_pair = (box_one, box_two)
+        if dsu.components == 1:
+            break
+
+    return last_pair
+
+
 def main():
     if len(sys.argv) > 1:
         option = sys.argv[1]
@@ -86,18 +101,27 @@ def main():
         n_distances = 1000
 
     boxes = read_box_coordinates(filepath)
-    shortest_distances = get_shortest_distances(boxes, n_distances)
 
-    circuits = create_circuits(shortest_distances, len(boxes))
+    part = input("Which part do you want to solve? [1/2] ")
 
-    largest_circuit_lengths = sorted(
-        (len(c) for c in circuits.values()), reverse=True
-    )[:3]
-    print(
-        f"Product of three largest circuit lengths is {math.prod(
-            largest_circuit_lengths
-        )}"
-    )
+    if part == "1":
+        shortest_distances = calculate_all_distances(boxes)[:n_distances]
+        circuits = create_circuits_p1(shortest_distances, len(boxes))
+        largest_circuit_lengths = sorted(
+            (len(c) for c in circuits.values()), reverse=True
+        )[:3]
+        product = math.prod(largest_circuit_lengths)
+        print(f"Product of three largest circuit lengths is {product}")
+
+    elif part == "2":
+        distances = calculate_all_distances(boxes)
+        last_pair = create_circuits_p2(distances, len(boxes))
+        last_pair = [boxes[id] for id in last_pair]
+        product = math.prod(box[0] for box in last_pair)
+        print(f"The product of the X coordinates is {product}")
+
+    else:
+        print("Invalid choice. Exiting program.")
 
 
 if __name__ == "__main__":
